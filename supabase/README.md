@@ -26,7 +26,19 @@ To seed full galleries later:
 bun run seed:supabase:all
 ```
 
-6. Start the site:
+6. Optional: upload the sampled local images to Supabase Storage and rewrite image URLs in Supabase content:
+
+```bash
+bun run upload:supabase-photos
+```
+
+To upload every local image referenced by content:
+
+```bash
+bun run upload:supabase-photos:all
+```
+
+7. Start the site:
 
 ```bash
 bun run dev

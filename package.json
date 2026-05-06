@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "seed:supabase": "node scripts/seed-supabase-content.mjs",
-    "seed:supabase:all": "node scripts/seed-supabase-content.mjs --all"
+    "seed:supabase:all": "node scripts/seed-supabase-content.mjs --all",
+    "upload:supabase-photos": "node scripts/upload-supabase-photos.mjs",
+    "upload:supabase-photos:all": "node scripts/upload-supabase-photos.mjs --all"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.3",
