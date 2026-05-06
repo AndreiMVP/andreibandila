@@ -1,0 +1,28 @@
+{
+  "id": "lumina-necreata",
+  "title": "Lumina necreată",
+  "subtitle": "documentar de eseu, 2024",
+  "year": "2024",
+  "duration": "47 min",
+  "role": "scenariu, regie, imagine",
+  "status": "în post-producție",
+  "cover": "/photos/04.jpg",
+  "festivals": [
+    "One World Romania 2025 — selecție oficială"
+  ],
+  "synopsis": "Trei iconografi din Maramureș, Vâlcea și Athos vorbesc despre lumină — nu cea pe care o pictează, ci cea care, după ei, îi pictează pe ei. Un documentar lent, în alb-negru, despre răbdarea ca formă de teologie.",
+  "stills": [
+    {
+      "src": "/photos/04.jpg",
+      "caption": "Mănăstirea Sărăcinești — rozeta"
+    },
+    {
+      "src": "/photos/08.jpg",
+      "caption": "Atelierul de la Bârsana, dimineața"
+    },
+    {
+      "src": "/photos/03.jpg",
+      "caption": "Masă de iconograf, după lucru"
+    }
+  ]
+}

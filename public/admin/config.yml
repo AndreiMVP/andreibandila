@@ -1,0 +1,110 @@
+# Decap CMS configuration.
+# For local editing, run `npx decap-server`, then open /admin.
+# For production, configure a real Git backend/auth provider.
+# Common choices:
+# - Netlify Identity + Git Gateway: keep `name: git-gateway`.
+# - GitHub OAuth: replace this backend with `name: github`, `repo`, and `branch`.
+
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+publish_mode: editorial_workflow
+
+media_folder: public/photos/uploads
+public_folder: /photos/uploads
+
+collections:
+  - name: albums
+    label: Albums
+    label_singular: Album
+    folder: content/albums
+    extension: json
+    format: json
+    create: true
+    slug: "{{id}}"
+    identifier_field: title
+    fields:
+      - { name: id, label: ID, widget: string, hint: "Stable URL id, e.g. timisoara" }
+      - { name: title, label: Title, widget: string }
+      - { name: subtitle, label: Subtitle, widget: string, required: false }
+      - { name: year, label: Year, widget: string }
+      - { name: location, label: Location, widget: string }
+      - { name: cover, label: Cover, widget: image }
+      - { name: count, label: Photo count, widget: number, value_type: int }
+      - { name: description, label: Description, widget: text }
+      - name: photos
+        label: Photos
+        widget: list
+        summary: "{{fields.caption}}"
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: caption, label: Caption, widget: string }
+
+  - name: films
+    label: Films
+    label_singular: Film
+    folder: content/films
+    extension: json
+    format: json
+    create: true
+    slug: "{{id}}"
+    identifier_field: title
+    fields:
+      - { name: id, label: ID, widget: string }
+      - { name: title, label: Title, widget: string }
+      - { name: subtitle, label: Subtitle, widget: string }
+      - { name: year, label: Year, widget: string }
+      - { name: duration, label: Duration, widget: string }
+      - { name: role, label: Role, widget: string }
+      - { name: status, label: Status, widget: string }
+      - { name: cover, label: Cover, widget: image }
+      - { name: poster, label: Poster URL, widget: string, required: false }
+      - name: festivals
+        label: Festivals
+        widget: list
+        field: { name: item, label: Festival, widget: string }
+      - { name: synopsis, label: Synopsis, widget: text }
+      - name: stills
+        label: Stills
+        widget: list
+        summary: "{{fields.caption}}"
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: caption, label: Caption, widget: string }
+
+  - name: journal
+    label: Journal
+    label_singular: Article
+    folder: content/journal
+    extension: json
+    format: json
+    create: true
+    slug: "{{id}}"
+    identifier_field: title
+    fields:
+      - { name: id, label: ID, widget: string }
+      - { name: kind, label: Kind, widget: select, options: ["eseu", "notă"] }
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: string }
+      - { name: readTime, label: Read time, widget: string }
+      - { name: excerpt, label: Excerpt, widget: text }
+      - name: body
+        label: Body paragraphs
+        widget: list
+        field: { name: paragraph, label: Paragraph, widget: text }
+
+  - name: settings
+    label: Settings
+    files:
+      - name: about
+        label: About text
+        file: content/about.json
+        extension: json
+        format: json
+        fields:
+          - name: paragraphs
+            label: Paragraphs
+            widget: list
+            field: { name: paragraph, label: Paragraph, widget: text }

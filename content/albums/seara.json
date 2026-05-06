@@ -1,0 +1,16 @@
+{
+  "id": "seara",
+  "title": "Seara Românească",
+  "subtitle": "interioare, 2024",
+  "year": "2024",
+  "location": "Banat & Oltenia",
+  "cover": "/photos/03.jpg",
+  "count": 1,
+  "description": "O serie despre obiectele care țin compania singurătății — lămpi, mese de lemn, plăci comemorative. Mici altare laice ale serii.",
+  "photos": [
+    {
+      "src": "/photos/03.jpg",
+      "caption": "Pe locul acesta, în 1868"
+    }
+  ]
+}

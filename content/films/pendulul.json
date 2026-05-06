@@ -1,0 +1,30 @@
+{
+  "id": "pendulul",
+  "title": "Pendulul",
+  "subtitle": "scurtmetraj de ficțiune, 2021",
+  "year": "2021",
+  "duration": "23 min",
+  "role": "scenariu & co-regie",
+  "status": "lansat",
+  "cover": "/photos/02.jpg",
+  "festivals": [
+    "TIFF 2021 — competiție națională",
+    "Astra Film 2021",
+    "Cinepolitica 2022"
+  ],
+  "synopsis": "Un orologier bătrân din Reșița primește, la o săptămână după moartea soției, un pendul vechi pe care nu îl recunoaște. Încercând să-l repare, descoperă că mecanismul îi vorbește pe limba unei amintiri pe care o credea pierdută.",
+  "stills": [
+    {
+      "src": "/photos/02.jpg",
+      "caption": "Atelierul lui Toma — interior, zi"
+    },
+    {
+      "src": "/photos/05.jpg",
+      "caption": "Strada principală, secvența de deschidere"
+    },
+    {
+      "src": "/photos/07.jpg",
+      "caption": "Fereastra biroului, ora 4:00"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "id": "timisoara",
+  "title": "Timișoara",
+  "subtitle": "noctambul, 2024",
+  "year": "2024",
+  "location": "Timișoara, RO",
+  "cover": "/photos/05.jpg",
+  "count": 7,
+  "description": "O plimbare lentă prin orașul vechi, după miezul nopții. Lumina caldă a felinarelor pe fațadele baroce, străzile pustii, ghirlandele de Crăciun încă aprinse. Un oraș care își vorbește singur.",
+  "photos": [
+    {
+      "src": "/photos/01.jpg",
+      "caption": "Stage Pub, pe fereastră"
+    },
+    {
+      "src": "/photos/05.jpg",
+      "caption": "Strada Mercy, după miezul nopții"
+    },
+    {
+      "src": "/photos/02.jpg",
+      "caption": "Spre Piața Unirii"
+    },
+    {
+      "src": "/photos/09.jpg",
+      "caption": "Piața Victoriei, ora 2:14"
+    },
+    {
+      "src": "/photos/08.jpg",
+      "caption": "Cornișa, fragment"
+    },
+    {
+      "src": "/photos/07.jpg",
+      "caption": "Lumină pe fațadă"
+    },
+    {
+      "src": "/photos/06.jpg",
+      "caption": "Trecător, viteză 1/15"
+    }
+  ]
+}

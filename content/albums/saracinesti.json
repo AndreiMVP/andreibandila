@@ -1,0 +1,16 @@
+{
+  "id": "saracinesti",
+  "title": "Mănăstirea Sărăcinești",
+  "subtitle": "însemnări, 2023",
+  "year": "2023",
+  "location": "Vâlcea, RO",
+  "cover": "/photos/04.jpg",
+  "count": 1,
+  "description": "Liniștea unei dimineți de toamnă la mănăstire. Geometria rozetei — un caligraf de piatră — și ritualul tăcerii care se așază peste lucruri.",
+  "photos": [
+    {
+      "src": "/photos/04.jpg",
+      "caption": "Rozeta, fațada de nord"
+    }
+  ]
+}

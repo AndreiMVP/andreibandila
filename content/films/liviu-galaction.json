@@ -1,0 +1,35 @@
+{
+  "id": "liviu-galaction",
+  "title": "Liviu Galaction de la Cluj",
+  "subtitle": "lungmetraj de ficțiune, în dezvoltare",
+  "year": "2026",
+  "duration": "≈ 118 min (proiectat)",
+  "role": "scenariu & regie",
+  "status": "în dezvoltare",
+  "cover": "/photos/film-galaction-poster.jpg",
+  "poster": "#",
+  "festivals": [
+    "Less is More Co-Production Forum — selecție 2025",
+    "TIFF Pitch Forum — finalist 2026",
+    "CNC Romania — proiect susținut, sesiunea I/2026"
+  ],
+  "synopsis": "Cluj, 1958. Părintele profesor Liviu-Galaction Munteanu, vicar administrativ al Eparhiei Clujului, întocmește o programă pentru catehizarea copiilor și a adulților. Securitatea îl arestează în 1959; este condamnat la opt ani de închisoare pentru „uneltire contra ordinii sociale”. Moare la Aiud, în dimineața zilei de 8 martie 1961, și e îngropat în groapa comună de la Râpa Robilor. Un film despre tăcere, catehizare și demnitatea unei vieți care n-a făcut zgomot.",
+  "stills": [
+    {
+      "src": "/photos/film-galaction-poster.jpg",
+      "caption": "Poster oficial — proiect grafic, 2026"
+    },
+    {
+      "src": "/photos/04.jpg",
+      "caption": "Catedrala Mitropolitană din Cluj — locație potențială"
+    },
+    {
+      "src": "/photos/08.jpg",
+      "caption": "Mood — celula de la Aiud, recital de noapte"
+    },
+    {
+      "src": "/photos/03.jpg",
+      "caption": "Birou de profesor de teologie, ref. 1958"
+    }
+  ]
+}

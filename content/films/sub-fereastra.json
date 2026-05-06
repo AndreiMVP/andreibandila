@@ -1,0 +1,29 @@
+{
+  "id": "sub-fereastra",
+  "title": "Sub fereastră",
+  "subtitle": "lungmetraj, în dezvoltare",
+  "year": "2026",
+  "duration": "≈ 102 min (proiectat)",
+  "role": "scenariu",
+  "status": "în dezvoltare",
+  "cover": "/photos/09.jpg",
+  "festivals": [
+    "Less is More — sesiunea 2024",
+    "TIFF Pitch Forum — finalist 2024"
+  ],
+  "synopsis": "După moartea tatălui, Ana se întoarce la casa din Banat unde a copilărit și începe să scrie scrisori unei vecine pe care n-a cunoscut-o niciodată. Un film despre vinovăție, ferestre care dau în alte ferestre, și felul în care vorbim cu cei care nu mai răspund.",
+  "stills": [
+    {
+      "src": "/photos/09.jpg",
+      "caption": "Mood board — fereastra Anei"
+    },
+    {
+      "src": "/photos/05.jpg",
+      "caption": "Locație potențială, sat din Banat"
+    },
+    {
+      "src": "/photos/06.jpg",
+      "caption": "Referință de lumină, secvența finală"
+    }
+  ]
+}
