@@ -1,8 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ABOUT_TEXT, ALBUMS, FILMS, JOURNAL } from "./portfolio-data";
+import { createContext, useContext, useEffect, useState } from "react";
 import type { Photo, Route } from "./portfolio-data";
+import type { PortfolioContent } from "./portfolio-content";
+
+
+const PortfolioContentContext = createContext<PortfolioContent | null>(null);
+
+function usePortfolioContent() {
+  const content = useContext(PortfolioContentContext);
+  if (!content) throw new Error("Portfolio content provider is missing");
+  return content;
+}
 
 // ───────────────────────────────────────────────────────────────────────────
 // ROUTING (hash-based, light)
@@ -104,6 +113,7 @@ function Footer() {
 // ───────────────────────────────────────────────────────────────────────────
 
 function Home() {
+  const { albums: ALBUMS, films: FILMS } = usePortfolioContent();
   const heroes = [
     { src: "/photos/hero-01.jpg", caption: "Lumânări la utrenia Învierii" },
     { src: "/photos/hero-02.jpg", caption: "Trapeza, după rugăciune" },
@@ -186,6 +196,7 @@ function Home() {
 // ───────────────────────────────────────────────────────────────────────────
 
 function FilmsList() {
+  const { films: FILMS } = usePortfolioContent();
   return (
     <main className="page page-films fade-in">
       <header className="page-header">
@@ -227,6 +238,7 @@ function FilmsList() {
 // ───────────────────────────────────────────────────────────────────────────
 
 function FilmDetail({ id }: { id: string }) {
+  const { films: FILMS } = usePortfolioContent();
   const film = FILMS.find((f) => f.id === id);
   const [lightbox, setLightbox] = useState<number | null>(null);
 
@@ -319,6 +331,7 @@ function FilmDetail({ id }: { id: string }) {
 // ───────────────────────────────────────────────────────────────────────────
 
 function AlbumsList({ density }: { density: "spacious" | "comfortable" | "compact" }) {
+  const { albums: ALBUMS } = usePortfolioContent();
   return (
     <main className="page page-albums fade-in">
       <header className="page-header">
@@ -357,6 +370,7 @@ function AlbumsList({ density }: { density: "spacious" | "comfortable" | "compac
 // ───────────────────────────────────────────────────────────────────────────
 
 function AlbumDetail({ id }: { id: string }) {
+  const { albums: ALBUMS } = usePortfolioContent();
   const album = ALBUMS.find((a) => a.id === id);
   const [lightbox, setLightbox] = useState<number | null>(null);
 
@@ -450,6 +464,7 @@ function Lightbox({ photos, index, onClose, onChange }: { photos: Photo[]; index
 // ───────────────────────────────────────────────────────────────────────────
 
 function About() {
+  const { aboutText: ABOUT_TEXT } = usePortfolioContent();
   return (
     <main className="page page-about fade-in">
       <header className="page-header">
@@ -517,6 +532,7 @@ function About() {
 // ───────────────────────────────────────────────────────────────────────────
 
 function Journal() {
+  const { journal: JOURNAL } = usePortfolioContent();
   const eseuri = JOURNAL.filter((j) => j.kind === "eseu");
   const note = JOURNAL.filter((j) => j.kind === "notă");
 
@@ -572,6 +588,7 @@ function Journal() {
 }
 
 function Article({ id }: { id: string }) {
+  const { journal: JOURNAL } = usePortfolioContent();
   const article = JOURNAL.find((j) => j.id === id);
   if (!article) {
     return (
@@ -606,7 +623,7 @@ function Article({ id }: { id: string }) {
 // APP
 // ───────────────────────────────────────────────────────────────────────────
 
-export default function App() {
+export default function App({ content }: { content: PortfolioContent }) {
   const [route, setRoute] = useState<Route>({ page: "home" });
 
   useEffect(() => {
@@ -648,10 +665,12 @@ export default function App() {
   }
 
   return (
-    <div className="site" data-route={route.page}>
-      <Header route={route} />
-      {view}
-      <Footer />
-    </div>
+    <PortfolioContentContext.Provider value={content}>
+      <div className="site" data-route={route.page}>
+        <Header route={route} />
+        {view}
+        <Footer />
+      </div>
+    </PortfolioContentContext.Provider>
   );
 }

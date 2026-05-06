@@ -1,5 +1,10 @@
 import PortfolioClient from "./portfolio-client";
+import { getPortfolioContent } from "./portfolio-content";
 
-export default function Home() {
-  return <PortfolioClient />;
+export const revalidate = 60;
+
+export default async function Home() {
+  const content = await getPortfolioContent();
+
+  return <PortfolioClient content={content} />;
 }
