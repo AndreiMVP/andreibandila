@@ -1,9 +1,6 @@
-# Decap CMS configuration.
-# For local editing, run `npx decap-server`, then open /admin.
-# For production, configure a real Git backend/auth provider.
-# Common choices:
-# - Netlify Identity + Git Gateway: keep `name: git-gateway`.
-# - GitHub OAuth: replace this backend with `name: github`, `repo`, and `branch`.
+# Configurare Decap CMS.
+# Pentru editare locală: `npx decap-server`, apoi deschide /admin.
+# Pentru producție, configurează un backend Git cu autentificare.
 
 backend:
   name: git-gateway
@@ -11,13 +8,15 @@ backend:
 
 local_backend: true
 publish_mode: editorial_workflow
+site_url: /
+display_url: /
 
 media_folder: public/photos/uploads
 public_folder: /photos/uploads
 
 collections:
   - name: albums
-    label: Albums
+    label: Albume
     label_singular: Album
     folder: content/albums
     extension: json
@@ -26,24 +25,24 @@ collections:
     slug: "{{id}}"
     identifier_field: title
     fields:
-      - { name: id, label: ID, widget: string, hint: "Stable URL id, e.g. timisoara" }
-      - { name: title, label: Title, widget: string }
-      - { name: subtitle, label: Subtitle, widget: string, required: false }
-      - { name: year, label: Year, widget: string }
-      - { name: location, label: Location, widget: string }
-      - { name: cover, label: Cover, widget: image }
-      - { name: count, label: Photo count, widget: number, value_type: int }
-      - { name: description, label: Description, widget: text }
+      - { name: id, label: ID, widget: string, hint: "Identificator stabil pentru URL, ex. timisoara" }
+      - { name: title, label: Titlu, widget: string }
+      - { name: subtitle, label: Subtitlu, widget: string, required: false }
+      - { name: year, label: An, widget: string }
+      - { name: location, label: Loc, widget: string }
+      - { name: cover, label: Copertă, widget: image }
+      - { name: count, label: Număr fotografii, widget: number, value_type: int }
+      - { name: description, label: Descriere, widget: text }
       - name: photos
-        label: Photos
+        label: Fotografii
         widget: list
         summary: "{{fields.caption}}"
         fields:
-          - { name: src, label: Image, widget: image }
-          - { name: caption, label: Caption, widget: string }
+          - { name: src, label: Imagine, widget: image }
+          - { name: caption, label: Legendă, widget: string }
 
   - name: films
-    label: Films
+    label: Filme
     label_singular: Film
     folder: content/films
     extension: json
@@ -53,30 +52,30 @@ collections:
     identifier_field: title
     fields:
       - { name: id, label: ID, widget: string }
-      - { name: title, label: Title, widget: string }
-      - { name: subtitle, label: Subtitle, widget: string }
-      - { name: year, label: Year, widget: string }
-      - { name: duration, label: Duration, widget: string }
-      - { name: role, label: Role, widget: string }
-      - { name: status, label: Status, widget: string }
-      - { name: cover, label: Cover, widget: image }
-      - { name: poster, label: Poster URL, widget: string, required: false }
+      - { name: title, label: Titlu, widget: string }
+      - { name: subtitle, label: Subtitlu, widget: string }
+      - { name: year, label: An, widget: string }
+      - { name: duration, label: Durată, widget: string }
+      - { name: role, label: Rol, widget: string }
+      - { name: status, label: Stadiu, widget: string }
+      - { name: cover, label: Copertă, widget: image }
+      - { name: poster, label: URL poster, widget: string, required: false }
       - name: festivals
-        label: Festivals
+        label: Festivaluri
         widget: list
         field: { name: item, label: Festival, widget: string }
-      - { name: synopsis, label: Synopsis, widget: text }
+      - { name: synopsis, label: Sinopsis, widget: text }
       - name: stills
-        label: Stills
+        label: Cadre
         widget: list
         summary: "{{fields.caption}}"
         fields:
-          - { name: src, label: Image, widget: image }
-          - { name: caption, label: Caption, widget: string }
+          - { name: src, label: Imagine, widget: image }
+          - { name: caption, label: Legendă, widget: string }
 
   - name: journal
-    label: Journal
-    label_singular: Article
+    label: Jurnal
+    label_singular: Articol
     folder: content/journal
     extension: json
     format: json
@@ -85,26 +84,26 @@ collections:
     identifier_field: title
     fields:
       - { name: id, label: ID, widget: string }
-      - { name: kind, label: Kind, widget: select, options: ["eseu", "notă"] }
-      - { name: title, label: Title, widget: string }
-      - { name: date, label: Date, widget: string }
-      - { name: readTime, label: Read time, widget: string }
-      - { name: excerpt, label: Excerpt, widget: text }
+      - { name: kind, label: Tip, widget: select, options: ["eseu", "notă"] }
+      - { name: title, label: Titlu, widget: string }
+      - { name: date, label: Dată, widget: string }
+      - { name: readTime, label: Timp de citire, widget: string }
+      - { name: excerpt, label: Rezumat, widget: text }
       - name: body
-        label: Body paragraphs
+        label: Paragrafe
         widget: list
-        field: { name: paragraph, label: Paragraph, widget: text }
+        field: { name: paragraph, label: Paragraf, widget: text }
 
   - name: settings
-    label: Settings
+    label: Setări
     files:
       - name: about
-        label: About text
+        label: Text despre autor
         file: content/about.json
         extension: json
         format: json
         fields:
           - name: paragraphs
-            label: Paragraphs
+            label: Paragrafe
             widget: list
-            field: { name: paragraph, label: Paragraph, widget: text }
+            field: { name: paragraph, label: Paragraf, widget: text }
