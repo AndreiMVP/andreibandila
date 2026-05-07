@@ -28,6 +28,7 @@ export const metadata: Metadata = {
   title: { default: "Andrei Bândilă · Fotografie", template: "%s" },
   description: "Portofoliu de fotografie, film și jurnal editorial.",
   alternates: { canonical: "/" },
+  icons: { icon: "/icon.svg" },
   openGraph: {
     type: "website",
     locale: "ro_RO",
