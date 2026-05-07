@@ -2,10 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import type { SupabaseClient } from "@supabase/supabase-js";
 import { QueryClient, QueryClientProvider, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Toaster, toast } from "sonner";
-import { z } from "zod";
 import { LogOut, Plus } from "lucide-react";
 import { useSupabaseSession } from "./admin-hooks";
 import type {
@@ -28,71 +26,31 @@ import {
   type LoginValues,
   type Tab,
 } from "./admin-components";
-
-const emptyAlbum: Album = { id: "", title: "", subtitle: "", year: "", location: "", description: "", published: false, sort_order: 0 };
-const emptyFilm: Film = { id: "", title: "", subtitle: "", year: "", role: "", description: "", cover: "", published: false, sort_order: 0 };
-const emptyJournal: Journal = { id: "", title: "", content: "", image: "", published: false, sort_order: 0 };
-const emptyAbout: About = { portrait_image: "", content: "" };
-
-const requiredString = z.string().trim().min(1, "Completează câmpurile obligatorii.");
-const slugString = requiredString.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Slugul poate conține doar litere mici, cifre și cratime.");
-const albumSchema = z.object({ id: slugString, title: requiredString, subtitle: z.string(), year: z.string(), location: z.string(), description: z.string(), published: z.boolean(), sort_order: z.number() });
-const filmSchema = z.object({ id: slugString, title: requiredString, subtitle: z.string(), year: z.string(), role: z.string(), description: z.string(), cover: z.string(), published: z.boolean(), sort_order: z.number() });
-const journalSchema = z.object({ id: slugString, title: requiredString, content: z.string(), image: z.string(), published: z.boolean(), sort_order: z.number() });
-const aboutSchema = z.object({ portrait_image: z.string(), content: z.string() });
-const aboutSectionSchema = z.object({ id: requiredString, title: requiredString, body: z.string(), sort_order: z.number() });
-
-function validationMessage(error: unknown) {
-  if (error instanceof z.ZodError) return error.issues[0]?.message ?? "Date invalide.";
-  return error instanceof Error ? error.message : "A apărut o eroare.";
-}
-
-function stable(value: unknown) {
-  return JSON.stringify(value);
-}
-
-type AdminData = { albums: Album[]; films: Film[]; journalEntries: Journal[]; about: About | null; aboutSections: AboutSection[] };
+import { fetchAdminData } from "./admin-data";
+import {
+  aboutSchema,
+  aboutSectionSchema,
+  albumSchema,
+  emptyAbout,
+  emptyAlbum,
+  emptyFilm,
+  emptyJournal,
+  filmSchema,
+  itemIdFromPath,
+  journalSchema,
+  pathForTab,
+  readImageMetadata,
+  stable,
+  storagePathForFile,
+  storagePathFromPublicUrl,
+  tabFromPath,
+  validationMessage,
+} from "./admin-utils";
 
 const adminQueryClient = new QueryClient();
 
-async function fetchAdminData(supabase: SupabaseClient): Promise<AdminData> {
-  const [a, f, j, ab, abs] = await Promise.all([
-    supabase.from("albums").select("id,title,subtitle,year,location,description,published,sort_order").order("sort_order"),
-    supabase.from("films").select("id,title,subtitle,year,role,description,cover,published,sort_order").order("sort_order"),
-    supabase.from("journal_entries").select("id,title,content,image,published,sort_order").order("sort_order"),
-    supabase.from("about_page").select("portrait_image,content").eq("id", true).maybeSingle(),
-    supabase.from("about_sections").select("id,title,body,sort_order").order("sort_order"),
-  ]);
-  const err = a.error || f.error || j.error || ab.error || abs.error;
-  if (err) throw err;
-  return {
-    albums: (a.data ?? []) as Album[],
-    films: (f.data ?? []) as Film[],
-    journalEntries: (j.data ?? []) as Journal[],
-    about: (ab.data as About | null) ?? null,
-    aboutSections: (abs.data ?? []) as AboutSection[],
-  };
-}
-
 export default function AdminClient({ initialTab, initialItemId, loginPage = false }: { initialTab?: Tab; initialItemId?: string; loginPage?: boolean }) {
   return <QueryClientProvider client={adminQueryClient}><AdminApp initialTab={initialTab} initialItemId={initialItemId} loginPage={loginPage} /><Toaster position="bottom-right" toastOptions={{ classNames: { toast: "admin-toast", title: "admin-toast-title", description: "admin-toast-description", actionButton: "admin-toast-action", cancelButton: "admin-toast-cancel" } }} /></QueryClientProvider>;
-}
-
-function tabFromPath(pathname: string): Tab {
-  if (pathname.startsWith("/films")) return "films";
-  if (pathname.startsWith("/journal")) return "journal";
-  if (pathname.startsWith("/despre") || pathname.startsWith("/about")) return "about";
-  return "albums";
-}
-
-function pathForTab(tab: Tab, id?: string) {
-  const base = tab === "albums" ? "/albums" : tab === "films" ? "/films" : tab === "journal" ? "/journal" : "/despre";
-  return id && tab !== "about" ? `${base}/${id}` : base;
-}
-
-function itemIdFromPath(pathname: string) {
-  const parts = pathname.split("/").filter(Boolean);
-  return parts.length > 1 ? parts[1] : undefined;
 }
 
 function AdminApp({ initialTab, initialItemId, loginPage }: { initialTab?: Tab; initialItemId?: string; loginPage: boolean }) {
@@ -256,12 +214,6 @@ function AdminApp({ initialTab, initialItemId, loginPage }: { initialTab?: Tab; 
     if (error) notify(error.message, "error");
   }
 
-  function storagePathFromPublicUrl(url: string) {
-    const marker = "/storage/v1/object/public/photos/";
-    const index = url.indexOf(marker);
-    return index >= 0 ? decodeURIComponent(url.slice(index + marker.length)) : null;
-  }
-
   async function removeStorageUrl(url: string) {
     if (!supabase || !url) return;
     const path = storagePathFromPublicUrl(url);
@@ -296,46 +248,10 @@ function AdminApp({ initialTab, initialItemId, loginPage }: { initialTab?: Tab; 
     await removeStorageUrls(toDelete);
   }
 
-  async function readImageMetadata(file: File): Promise<{ width: number | null; height: number | null; blur_data_url: string | null }> {
-    try {
-      const bitmap = await createImageBitmap(file);
-      const metadata = imageMetadataFromDrawable(bitmap, bitmap.width, bitmap.height);
-      bitmap.close();
-      return metadata;
-    } catch {
-      const url = URL.createObjectURL(file);
-      try {
-        const image = await new Promise<HTMLImageElement>((resolve, reject) => {
-          const img = new Image();
-          img.onload = () => resolve(img);
-          img.onerror = reject;
-          img.src = url;
-        });
-        return imageMetadataFromDrawable(image, image.naturalWidth, image.naturalHeight);
-      } catch {
-        return { width: null, height: null, blur_data_url: null };
-      } finally {
-        URL.revokeObjectURL(url);
-      }
-    }
-  }
-
-  function imageMetadataFromDrawable(drawable: CanvasImageSource, width: number, height: number) {
-    const max = 24;
-    const ratio = width / height;
-    const canvas = document.createElement("canvas");
-    canvas.width = ratio >= 1 ? max : Math.max(1, Math.round(max * ratio));
-    canvas.height = ratio >= 1 ? Math.max(1, Math.round(max / ratio)) : max;
-    const ctx = canvas.getContext("2d");
-    ctx?.drawImage(drawable, 0, 0, canvas.width, canvas.height);
-    return { width, height, blur_data_url: canvas.toDataURL("image/jpeg", 0.55) };
-  }
-
   async function upload(file: File, folder: string): Promise<{ url: string; path: string; width: number | null; height: number | null; blur_data_url: string | null }> {
     if (!supabase) throw new Error("Supabase nu este configurat.");
     const metadata = await readImageMetadata(file);
-    const safe = file.name.toLowerCase().replace(/[^a-z0-9.]+/g, "-");
-    const storagePath = `${folder}/${Date.now()}-${crypto.randomUUID()}-${safe}`;
+    const storagePath = storagePathForFile(file, folder);
     const { error } = await supabase.storage.from("photos").upload(storagePath, file, { cacheControl: "31536000" });
     if (error) throw error;
     return { url: supabase.storage.from("photos").getPublicUrl(storagePath).data.publicUrl, path: storagePath, ...metadata };
