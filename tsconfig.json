@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@andreibandila/shared": ["./packages/shared/src/index.ts"]
     }
   },
   "include": [

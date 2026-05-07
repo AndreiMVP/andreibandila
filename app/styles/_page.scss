@@ -1,0 +1,71 @@
+@use "./breakpoints" as bp;
+@use "./mixins" as *;
+
+/* ─── Page transition ────────────────────────────────────────────────── */
+
+.fade-in {
+  animation: fadeIn var(--motion-mid) var(--ease-out) both;
+}
+
+.page:not(.page-home):not(.page-article).fade-in {
+  animation: none;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.page {
+  padding: 112px 56px 0;
+}
+
+.page-header {
+  padding: 88px 0 56px;
+  max-width: 720px;
+}
+
+.page-eyebrow {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.page-title {
+  font-family: var(--serif);
+  font-size: 88px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  margin: 0 0 32px;
+}
+
+.page-title em { font-style: italic; color: var(--ink-soft); }
+
+.page-lede {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 580px;
+  text-wrap: pretty;
+}
+
+@include down(bp.$tablet) {
+  .page { padding-top: 104px; }
+  .page-header { padding: 64px 0 44px; }
+  .page-title { font-size: clamp(52px, 11vw, 72px); }
+  .page-lede { font-size: 21px; }
+}
+
+@include down(bp.$mobile) {
+  .page { padding-top: 82px; }
+  .page-header { padding: 48px 0 34px; }
+  .page-eyebrow { letter-spacing: 0.18em; }
+  .page-title { font-size: clamp(44px, 15vw, 60px); margin-bottom: 24px; }
+  .page-lede { font-size: 19px; line-height: 1.48; }
+}

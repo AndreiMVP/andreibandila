@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter, JetBrains_Mono } from "next/font/google";
-import "./globals.css";
-import "./admin-styles.css";
+import { getSiteUrl, SITE_CONFIG } from "@andreibandila/shared";
+import "./globals.scss";
 
 const serif = Cormorant_Garamond({
   variable: "--font-serif",
@@ -23,14 +23,45 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Andrei Bândilă · Fotografie",
+  metadataBase: new URL(getSiteUrl()),
+  applicationName: SITE_CONFIG.name,
+  title: { default: "Andrei Bândilă · Fotografie", template: "%s" },
   description: "Portofoliu de fotografie, film și jurnal editorial.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "ro_RO",
+    siteName: "Andrei Bândilă",
+    title: "Andrei Bândilă · Fotografie",
+    description: "Portofoliu de fotografie, film și jurnal editorial.",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Andrei Bândilă · Fotografie",
+    description: "Portofoliu de fotografie, film și jurnal editorial.",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ro" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
-      <body>{children}</body>
+    <html lang="ro" data-theme="dark" className={`${serif.variable} ${sans.variable} ${mono.variable}`}>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: SITE_CONFIG.name,
+              url: getSiteUrl(),
+              jobTitle: ["Fotograf", "Scenarist", "Teolog"],
+              email: SITE_CONFIG.email,
+            }),
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

@@ -1,0 +1,99 @@
+@use "./breakpoints" as bp;
+@use "./mixins" as *;
+
+/* ─── Shared markdown/prose styles ───────────────────────────────────── */
+
+.markdown-body {
+  max-width: 580px;
+}
+
+.article-markdown {
+  max-width: none;
+}
+
+.markdown-body p,
+.markdown-body li {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.55;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.article-markdown p,
+.article-markdown li {
+  font-size: 21px;
+  line-height: 1.6;
+}
+
+.markdown-body p {
+  margin: 0 0 24px;
+}
+
+.markdown-body p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body ul {
+  margin: 0 0 24px;
+  padding-left: 1.1em;
+}
+
+.markdown-body strong {
+  font-weight: 600;
+}
+
+.markdown-body em {
+  font-style: italic;
+}
+
+.markdown-body a {
+  color: inherit;
+  border-bottom: 1px solid var(--ink-mute);
+  padding-bottom: 0.02em;
+  transition: color var(--motion-fast) ease, border-color var(--motion-fast) ease;
+}
+
+.markdown-body a:hover {
+  color: var(--ink-soft);
+  border-color: currentColor;
+}
+
+.markdown-body a[target="_blank"]::after {
+  content: "↗";
+  display: inline-block;
+  margin-left: 0.12em;
+  font-family: var(--sans);
+  font-size: 0.48em;
+  line-height: 1;
+  opacity: 0.72;
+  transform: translateY(-0.22em);
+}
+
+.markdown-body p:first-child::first-letter {
+  font-size: 64px;
+  float: left;
+  line-height: 0.85;
+  padding: 6px 8px 0 0;
+  font-weight: 500;
+}
+
+.article-markdown p:first-child::first-letter {
+  font-size: 80px;
+  line-height: 0.82;
+  padding: 8px 12px 0 0;
+}
+
+@include down(bp.$tablet) {
+  .markdown-body p,
+  .markdown-body li { font-size: 21px; }
+}
+
+@include down(bp.$mobile) {
+  .markdown-body p,
+  .markdown-body li { font-size: 20px; }
+  .article-markdown p,
+  .article-markdown li { font-size: 19px; line-height: 1.58; }
+  .markdown-body p:first-child::first-letter { font-size: 54px; }
+  .article-markdown p:first-child::first-letter { font-size: 64px; padding-right: 10px; }
+}

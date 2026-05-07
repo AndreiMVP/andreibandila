@@ -1,0 +1,19 @@
+@use "./breakpoints" as bp;
+@use "./mixins" as *;
+
+/* ─── Shared responsive layout gutters ───────────────────────────────── */
+
+@include down(bp.$desktop-sm) {
+  @include content-gutters(clamp(24px, 4vw, 40px));
+  .page-home { padding-left: 0; padding-right: 0; }
+}
+
+@include down(bp.$mobile) {
+  @include content-gutters(18px);
+  .page-home { padding-left: 0; padding-right: 0; }
+}
+
+@include down(bp.$mobile-sm) {
+  @include content-gutters(14px);
+  .page-home { padding-left: 0; padding-right: 0; }
+}

@@ -1,25 +1,10 @@
-# Content CMS
+# Legacy seed content
 
-The public site reads portfolio content from JSON files in this folder at build time.
-
-- `albums/*.json` — photo album pages
-- `films/*.json` — film pages
-- `journal/*.json` — journal/articles
-- `about.json` — biography paragraphs
-
-Photos used by the site live in `public/photos`. New uploads from the admin UI are configured to go to `public/photos/uploads` and are referenced as `/photos/uploads/...` in JSON.
-
-## Admin editor
-
-A Decap CMS admin is available at `/admin`.
-
-Local editing:
+The public site no longer reads these JSON files directly. They are kept only as legacy source material for the optional Supabase seed/upload scripts:
 
 ```bash
-npx decap-server
-bun run dev
+bun run seed:supabase
+bun run upload:supabase-photos
 ```
 
-Then open `http://localhost:3000/admin`.
-
-Production needs a Git backend/auth provider configured in `public/admin/config.yml` so edits can be committed to the repository and trigger a rebuild.
+Runtime content comes from Supabase CMS tables. See `supabase/README.md`.

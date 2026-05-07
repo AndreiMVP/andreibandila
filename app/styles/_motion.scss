@@ -1,0 +1,45 @@
+@use "./breakpoints" as bp;
+@use "./mixins" as *;
+
+/* ─── Motion preferences ─────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 120ms !important;
+  }
+
+  .home-reveal,
+  .home-fullbleed-photo img,
+  .home-fullbleed-photo figcaption,
+  .article-bg,
+  .article-bg-image,
+  .lightbox-figure,
+  .featured-card:hover .featured-cover img,
+  .film-row:hover .film-row-cover img,
+  .album-card:hover .album-card-cover img,
+  .journal-item:hover .journal-item-image,
+  .gallery-control:active,
+  .lightbox-close:active {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  @include up(701px) {
+    .lightbox-nav:active:not(:disabled) {
+      transform: translateY(-50%) !important;
+    }
+  }
+
+  @include down(bp.$mobile) {
+    .lightbox-nav:active:not(:disabled) {
+      transform: none !important;
+    }
+  }
+}

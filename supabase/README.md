@@ -4,17 +4,34 @@
 2. In Supabase SQL Editor, run `supabase/schema.sql`.
 3. Create an admin user in Supabase Auth:
    - Authentication → Users → Add user
-4. Copy `.env.example` to `.env.local` and fill:
+4. Allow that user to manage content by inserting it into `admin_users`:
 
-```bash
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
+```sql
+insert into public.admin_users (user_id, email)
+select id, email from auth.users where email = 'you@example.com'
+on conflict (user_id) do nothing;
 ```
 
-5. Seed current JSON content into Supabase.
+Only rows present in `admin_users` can write CMS tables or upload/delete storage objects. Public visitors can only read published content.
 
-By default this seeds only a small sample of each gallery, so you do not upload/reference too many large images while testing:
+5. Copy env examples and fill the values:
+
+```bash
+# public app
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SITE_URL=https://andreibandila.ro
+SUPABASE_SERVICE_ROLE_KEY= # only needed for seed/upload scripts
+
+# admin app
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SITE_URL=https://andreibandila.ro
+```
+
+6. Optional: seed legacy JSON content into Supabase.
+
+By default this seeds only a small sample of each gallery:
 
 ```bash
 bun run seed:supabase
@@ -26,7 +43,7 @@ To seed full galleries later:
 bun run seed:supabase:all
 ```
 
-6. Optional: upload the sampled local images to Supabase Storage and rewrite image URLs in Supabase content:
+7. Optional: upload the sampled local images to Supabase Storage and rewrite image URLs in Supabase content:
 
 ```bash
 bun run upload:supabase-photos
@@ -38,14 +55,15 @@ To upload every local image referenced by content:
 bun run upload:supabase-photos:all
 ```
 
-7. Start the site:
+8. Start the site and admin app:
 
 ```bash
 bun run dev
+bun run dev:admin
 ```
 
-7. Open `/admin` and log in with the Supabase Auth user.
+The public website reads only from Supabase CMS tables: `albums`, `album_photos`, `films`, `journal_entries`, `about_page`, and `about_sections`. If Supabase is not configured or queries fail, the public content areas are empty rather than falling back to hardcoded JSON.
 
-The public website reads from `content_entries` and falls back to local JSON files if Supabase env vars are missing or the table is empty.
+Album photos store optional `width`, `height`, and `blur_data_url` metadata. New admin uploads populate these automatically; seeded local photos get dimensions when possible.
 
-Images uploaded in the admin go to the public Supabase Storage bucket named `photos`.
+Email and social links remain hardcoded in the public app.

@@ -1,0 +1,53 @@
+@mixin down($width) {
+  @media (max-width: $width) {
+    @content;
+  }
+}
+
+@mixin up($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin content-gutters($size) {
+  .page,
+  .hero,
+  .hero-image-row,
+  .hero-pair,
+  .hero-portrait-row,
+  .featured-albums,
+  .selected-works,
+  .home-statement,
+  .home-threshold,
+  .home-bio-fragment,
+  .site-footer,
+  .page-article {
+    padding-left: $size;
+    padding-right: $size;
+  }
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@mixin touch-caption {
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+@mixin hide-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

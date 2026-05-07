@@ -1,0 +1,91 @@
+@use "./breakpoints" as bp;
+@use "./mixins" as *;
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Andrei Rareș · editorial photography portfolio
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --bg: #f7f5f0;
+  --bg-alt: #efece5;
+  --ink: #1a1814;
+  --ink-soft: #4a463e;
+  --ink-mute: #8a847a;
+  --line: #ddd6c8;
+  --accent: #6a4f2a;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --motion-fast: 160ms;
+  --motion-mid: 400ms;
+  --motion-slow: 780ms;
+  --motion-photo: 1100ms;
+  --serif: var(--font-serif), "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  --sans: var(--font-sans), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: var(--font-mono), "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #0e0d0b;
+  --bg-alt: #161410;
+  --ink: #ece8df;
+  --ink-soft: #b9b3a5;
+  --ink-mute: #6e685d;
+  --line: #2a261f;
+  --accent: #c8a878;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  overflow-x: hidden;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color var(--motion-mid) ease, color var(--motion-mid) ease;
+}
+
+body {
+  overflow-x: clip;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
+
+:where(a, button, [role="button"]):focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 5px;
+}
+
+.lightbox :where(button):focus-visible {
+  outline-color: #ece8df;
+}
+
+/* ─── Site shell ─────────────────────────────────────────────────────── */
+
+.site {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site > main { flex: 1; }
+
+@include down(bp.$tablet) {
+  html, body { font-size: 17px; }
+}
+
+@include down(bp.$mobile) {
+  :where(a, button, [role="button"]):focus-visible { outline-offset: 3px; }
+}

@@ -1,17 +1,25 @@
 {
-  "name": "andreibandila",
+  "name": "@andreibandila/site",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "dev": "next dev",
+    "dev:admin": "cd apps/admin && bun run dev",
     "build": "next build",
+    "build:admin": "cd apps/admin && bun run build",
+    "build:all": "bun run build && bun run build:admin",
     "start": "next start",
+    "start:admin": "cd apps/admin && bun run start",
     "seed:supabase": "node scripts/seed-supabase-content.mjs",
     "seed:supabase:all": "node scripts/seed-supabase-content.mjs --all",
-    "upload:supabase-photos": "node scripts/upload-supabase-photos.mjs",
-    "upload:supabase-photos:all": "node scripts/upload-supabase-photos.mjs --all"
+    "supabase:types": "node scripts/generate-supabase-types.mjs"
   },
   "dependencies": {
+    "@andreibandila/shared": "workspace:*",
     "@supabase/supabase-js": "^2.105.3",
     "next": "16.2.4",
     "react": "19.2.4",
@@ -23,6 +31,8 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/ws": "^8.18.1",
+    "lucide-react": "^1.14.0",
+    "sass": "^1.99.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "ws": "^8.20.0"
