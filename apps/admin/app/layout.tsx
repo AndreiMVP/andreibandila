@@ -21,7 +21,7 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Admin · Andrei Bândilă",
-  icons: { icon: "/icon.svg" },
+  icons: { icon: [{ url: "/icon.svg?v=2", type: "image/svg+xml" }, { url: "/favicon.ico?v=2" }] },
   robots: { index: false, follow: false },
 };
 
