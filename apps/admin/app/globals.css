@@ -519,6 +519,31 @@ body {
   line-height: 1.2;
 }
 
+.admin-about-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 28%) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.admin-about-media {
+  position: sticky;
+  top: 24px;
+}
+
+.admin-about-portrait-control .admin-image-drop {
+  aspect-ratio: 3 / 4.25;
+  min-height: 0;
+}
+
+.admin-about-main {
+  min-width: 0;
+}
+
+.admin-about-main .admin-markdown-field {
+  margin-bottom: 28px;
+}
+
 .admin-about-sections {
   display: grid;
   gap: 14px;
@@ -598,8 +623,14 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .admin-film-layout {
+  .admin-film-layout,
+  .admin-about-layout {
     grid-template-columns: 1fr;
+  }
+
+  .admin-about-media {
+    position: static;
+    max-width: 420px;
   }
 
   .admin-sidebar,
