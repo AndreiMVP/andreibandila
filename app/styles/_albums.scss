@@ -104,7 +104,7 @@
 /* ─── ALBUM DETAIL ──────────────────────────────────────────────────── */
 
 .album-header {
-  padding: 56px 0 56px;
+  padding: 104px 0 56px;
   max-width: 760px;
 }
 
@@ -160,6 +160,21 @@
   max-width: 620px;
   text-wrap: pretty;
 }
+
+.album-end {
+  display: block;
+  width: 100%;
+  margin-top: 72px;
+  padding: 32px 0 80px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-mute);
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.album-end:hover { color: var(--ink); }
 
 /* gallery controls */
 .gallery-controls {
@@ -476,7 +491,7 @@
   .albums-grid-comfortable,
   .albums-grid-compact { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 24px; }
 
-  .album-header { padding-top: 40px; }
+  .album-header { padding-top: 72px; }
   .album-title { font-size: clamp(54px, 12vw, 76px); }
   .gallery-controls { overflow-x: auto; padding: 24px 0; margin-bottom: 36px; -webkit-overflow-scrolling: touch; }
   .gallery-controls-label { flex: 0 0 auto; }
@@ -492,8 +507,7 @@
 
   .album-card-title { font-size: 24px; }
   .album-card-row { gap: 10px; flex-wrap: wrap; }
-  .album-header { padding-top: 32px; padding-bottom: 42px; }
-  .back-link { margin-bottom: 40px; }
+  .album-header { padding-top: 56px; padding-bottom: 42px; }
   .album-meta-row { flex-wrap: wrap; gap: 8px 18px; line-height: 1.45; }
   .album-title { font-size: clamp(44px, 15vw, 62px); line-height: 0.98; }
   .album-lede { font-size: 20px; }

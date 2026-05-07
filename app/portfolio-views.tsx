@@ -172,9 +172,9 @@ export function FilmsList({ films: FILMS }: { films: Film[] }) {
             <div className="film-row-num">{String(i + 1).padStart(2, "0")}</div>
             <div className="film-row-cover">
               <PortfolioImage src={f.cover} alt={f.title} sizes="(min-width: 900px) 33vw, 100vw" />
-              {f.year && <div className="film-card-status">{f.year}</div>}
             </div>
             <div className="film-row-meta">
+              {f.role && <div className="film-row-role">{f.role}</div>}
               <h3 className="film-row-title">{f.title}</h3>
               <div className="film-row-sub">{f.subtitle}</div>
               <p className="film-row-synopsis">{plainTextFromMarkdown(f.description)}</p>
@@ -195,7 +195,6 @@ export function FilmDetail({ film }: { film: Film }) {
     <main className="page page-film-detail fade-in">
       <JsonLd data={{ "@context": "https://schema.org", "@type": "Movie", name: film.title, description: film.description, image: film.cover || undefined, url: `${SITE_URL}/film/${film.id}` }} />
       <header className="album-header">
-        <Link href="/film" className="back-link">← Film</Link>
         <div className="album-meta-row">
           {film.year && <span className="album-meta-piece">{film.year}</span>}
           {film.role && <span className="album-meta-piece">{film.role}</span>}
@@ -225,6 +224,7 @@ export function FilmDetail({ film }: { film: Film }) {
           </div>
         </div>
       </div>
+      <Link href="/film" className="film-end">← Film</Link>
     </main>
   );
 }
@@ -265,7 +265,6 @@ export function AlbumDetail({ album }: { album: Album }) {
     <main className="page page-album-detail fade-in">
       <JsonLd data={{ "@context": "https://schema.org", "@type": "ImageGallery", name: album.title, description: album.description, image: album.cover || undefined, url: `${SITE_URL}/foto/${album.id}` }} />
       <header className="album-header">
-        <Link href="/foto" className="back-link">← Foto</Link>
         <div className="album-meta-row">
           <span className="album-meta-piece">{album.location}</span>
           <span className="album-meta-piece">{album.year}</span>
@@ -275,6 +274,7 @@ export function AlbumDetail({ album }: { album: Album }) {
         <p className="album-lede">{album.description}</p>
       </header>
       <AlbumGalleryClient photos={album.photos} />
+      <Link href="/foto" className="album-end">← Foto</Link>
     </main>
   );
 }

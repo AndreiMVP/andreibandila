@@ -79,6 +79,20 @@
   padding-top: 0;
 }
 
+.film-row-role {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  background: var(--bg-alt);
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-weight: 600;
+}
+
 .film-row-title {
   font-family: var(--serif);
   font-size: 40px;
@@ -111,6 +125,10 @@
   margin: 0 0 24px;
   text-wrap: pretty;
   max-width: 580px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .film-row-specs {
@@ -139,6 +157,10 @@
 }
 
 /* Film detail */
+.page-film-detail .album-header {
+  padding-top: 104px;
+}
+
 .film-detail-layout {
   display: grid;
   grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr);
@@ -218,6 +240,21 @@
   line-height: 1.4;
 }
 
+.film-end {
+  display: block;
+  width: 100%;
+  margin-top: 72px;
+  padding: 32px 0 80px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-mute);
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+.film-end:hover { color: var(--ink); }
+
 .film-stills-head {
   padding-top: 48px;
   margin-bottom: 32px;
@@ -256,6 +293,7 @@
   .film-row { grid-template-columns: 1fr; gap: 16px; padding: 40px 0; }
   .film-row-num { padding-top: 0; }
   .film-row-title { font-size: clamp(34px, 7vw, 46px); }
+  .page-film-detail .album-header { padding-top: 72px; }
   .film-detail-layout { grid-template-columns: 1fr; gap: 40px; }
   .film-detail-cover { position: static; max-width: 640px; }
   .film-detail-grid { gap: 40px; }
@@ -267,6 +305,7 @@
   .film-row-title { font-size: clamp(32px, 11vw, 42px); }
   .film-row-synopsis { font-size: 17px; }
   .film-row-specs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .page-film-detail .album-header { padding-top: 56px; }
   .film-detail-layout { padding: 42px 0 56px; gap: 34px; }
   .film-detail-grid { gap: 34px; }
   .film-credits-list { grid-template-columns: 1fr; gap: 4px; }

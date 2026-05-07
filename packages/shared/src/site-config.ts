@@ -5,8 +5,7 @@ export const SITE_CONFIG = {
   location: "",
   socialLinks: [
     { label: "Instagram", href: "#" },
-    { label: "Vimeo", href: "#" },
-    { label: "Substack", href: "#" },
+    { label: "Facebook", href: "#" },
   ],
 } as const;
 
