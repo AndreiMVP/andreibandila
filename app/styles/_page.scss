@@ -3,13 +3,28 @@
 
 /* ─── Page transition ────────────────────────────────────────────────── */
 
-.fade-in {
-  animation: fadeIn var(--motion-mid) var(--ease-out) both;
+/* Page entry on every navigation — the wrapper in app/page-frame.tsx bumps
+   its key on pathname change so this animation replays on each route
+   transition. Subtle on purpose: opacity + a small lift, no blur. The
+   per-element reveals on home/article (hero photo, article bg, article
+   content) carry the heavier materializing where it matters. */
+.route-fade {
+  animation: routeFade 260ms var(--ease-out) both;
+  will-change: opacity, transform;
 }
 
-.page:not(.page-home):not(.page-article).fade-in {
-  animation: none;
+@keyframes routeFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
+
+/* Kept for legacy callers (slideshow, lightbox figure). */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

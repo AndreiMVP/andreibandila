@@ -27,19 +27,19 @@
   left: 0;
   right: 0;
   height: 28%;
-  background: linear-gradient(to bottom, var(--bg) 0%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(in oklab to bottom, var(--bg) 0%, rgba(0,0,0,0) 100%);
   pointer-events: none;
   z-index: 2;
   mix-blend-mode: normal;
 }
 
 [data-theme="light"] .home-fullbleed-photo:first-child::before {
-  background: linear-gradient(to bottom, var(--bg) 0%, rgba(247,245,240,0) 100%);
+  background: linear-gradient(in oklab to bottom, var(--bg) 0%, rgba(247,245,240,0) 100%);
 }
 
 [data-theme="dark"] .home-fullbleed-photo:first-child::before,
 :root:not([data-theme]) .home-fullbleed-photo:first-child::before {
-  background: linear-gradient(to bottom, #0e0d0b 0%, rgba(14,13,11,0.85) 35%, rgba(14,13,11,0) 100%);
+  background: linear-gradient(in oklab to bottom, #0e0d0b 0%, rgba(14,13,11,0.85) 35%, rgba(14,13,11,0) 100%);
 }
 
 .home-hero-picture {
@@ -60,8 +60,9 @@
 .home-fullbleed-photo:first-child img {
   opacity: 0;
   transform: scale(1.008);
-  animation: heroImageReveal var(--motion-photo) var(--ease-out) forwards;
-  will-change: opacity, transform;
+  filter: blur(6px);
+  animation: heroImageReveal var(--motion-photo) var(--ease-spring) forwards;
+  will-change: opacity, transform, filter;
 }
 
 .home-fullbleed-photo figcaption {
@@ -77,7 +78,10 @@
 
 .home-fullbleed-photo:first-child figcaption {
   opacity: 0;
-  animation: captionReveal var(--motion-mid) var(--ease-out) 360ms forwards;
+  transform: translateY(6px);
+  filter: blur(3px);
+  animation: captionReveal 520ms var(--ease-spring) 360ms forwards;
+  will-change: opacity, transform, filter;
 }
 
 .cap-text-mobile { display: none; }
@@ -95,11 +99,16 @@
   to {
     opacity: 1;
     transform: scale(1);
+    filter: blur(0);
   }
 }
 
 @keyframes captionReveal {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
 }
 
 @keyframes sectionReveal {
@@ -173,6 +182,11 @@
 
 .selected-work {
   display: block;
+  transition: transform 220ms var(--ease-out);
+}
+
+.selected-work:active {
+  transform: scale(0.985);
 }
 
 .selected-work-large {
@@ -187,7 +201,7 @@
 .selected-work-cover img {
   width: 100%;
   height: auto;
-  transition: transform var(--motion-slow) var(--ease-out);
+  transition: transform 600ms var(--ease-out);
 }
 
 .selected-work-large .selected-work-cover img {
@@ -289,7 +303,7 @@
 
 @media (hover: hover) and (pointer: fine) {
   .selected-work:hover .selected-work-cover img {
-    transform: scale(1.01);
+    transform: scale(1.025);
   }
 
   .selected-work:hover .selected-work-copy {
@@ -534,12 +548,12 @@
   display: block;
   width: 100%;
   height: auto;
-  transition: transform var(--motion-slow) var(--ease-out);
+  transition: transform 600ms var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .featured-card:hover .featured-cover img {
-    transform: scale(1.01);
+    transform: scale(1.025);
   }
 }
 

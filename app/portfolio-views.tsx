@@ -82,7 +82,7 @@ export function Home({ content }: { content: PortfolioContent }) {
   ].filter((work) => work.title);
 
   return (
-    <main className="page page-home fade-in">
+    <main className="page page-home">
       {hero && (
         <section className="home-fullbleed" aria-label="Imagine de intrare">
           <figure className="home-fullbleed-photo">
@@ -159,7 +159,7 @@ export function Home({ content }: { content: PortfolioContent }) {
 
 export function FilmsList({ films: FILMS }: { films: Film[] }) {
   return (
-    <main className="page page-films fade-in">
+    <main className="page page-films">
       <header className="page-header">
         <div className="page-eyebrow">Lucrări</div>
         <h1 className="page-title">Film</h1>
@@ -192,7 +192,7 @@ export function FilmsList({ films: FILMS }: { films: Film[] }) {
 
 export function FilmDetail({ film }: { film: Film }) {
   return (
-    <main className="page page-film-detail fade-in">
+    <main className="page page-film-detail">
       <JsonLd data={{ "@context": "https://schema.org", "@type": "Movie", name: film.title, description: film.description, image: film.cover || undefined, url: `${SITE_URL}/film/${film.id}` }} />
       <header className="album-header">
         <div className="album-meta-row">
@@ -231,7 +231,7 @@ export function FilmDetail({ film }: { film: Film }) {
 
 export function AlbumsList({ albums: ALBUMS, density }: { albums: Album[]; density: "spacious" | "comfortable" | "compact" }) {
   return (
-    <main className="page page-albums fade-in">
+    <main className="page page-albums">
       <header className="page-header">
         <div className="page-eyebrow">Lucrări</div>
         <h1 className="page-title">Foto</h1>
@@ -262,7 +262,7 @@ export function AlbumsList({ albums: ALBUMS, density }: { albums: Album[]; densi
 
 export function AlbumDetail({ album }: { album: Album }) {
   return (
-    <main className="page page-album-detail fade-in">
+    <main className="page page-album-detail">
       <JsonLd data={{ "@context": "https://schema.org", "@type": "ImageGallery", name: album.title, description: album.description, image: album.cover || undefined, url: `${SITE_URL}/foto/${album.id}` }} />
       <header className="album-header">
         <div className="album-meta-row">
@@ -282,7 +282,7 @@ export function AlbumDetail({ album }: { album: Album }) {
 export function About({ content }: { content: PortfolioContent }) {
   const { aboutText: ABOUT_TEXT, aboutImage, aboutSections, contactEmail } = content;
   return (
-    <main className="page page-about fade-in">
+    <main className="page page-about">
       <header className="page-header about-header">
         <div className="page-eyebrow">Despre</div>
         <h1 className="page-title">Despre</h1>
@@ -343,7 +343,7 @@ export function About({ content }: { content: PortfolioContent }) {
 
 export function Journal({ journal: JOURNAL }: { journal: JournalEntry[] }) {
   return (
-    <main className="page page-journal fade-in">
+    <main className="page page-journal">
       <header className="page-header">
         <div className="page-eyebrow">Texte</div>
         <h1 className="page-title">Jurnal</h1>
@@ -371,7 +371,7 @@ export function Journal({ journal: JOURNAL }: { journal: JournalEntry[] }) {
 
 export function Article({ article }: { article: JournalEntry }) {
   return (
-    <main className="page page-article fade-in">
+    <main className="page page-article">
       <JsonLd data={{ "@context": "https://schema.org", "@type": "Article", headline: article.title, description: article.excerpt, image: article.image || undefined, url: `${SITE_URL}/jurnal/${article.id}`, author: { "@type": "Person", name: SITE_CONFIG.name } }} />
       <article className={`article${article.image ? " article-with-bg" : ""}`}>
         {article.image && <div className="article-bg" aria-hidden="true"><Image src={article.image} alt="" fill sizes="100vw" priority className="article-bg-image" /></div>}

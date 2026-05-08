@@ -26,6 +26,11 @@
 .album-card {
   display: block;
   position: relative;
+  transition: transform 220ms var(--ease-out);
+}
+
+.album-card:active {
+  transform: scale(0.985);
 }
 
 .album-card-num {
@@ -50,12 +55,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--motion-slow) var(--ease-out);
+  transition: transform 600ms var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .album-card:hover .album-card-cover img {
-    transform: scale(1.01);
+    transform: scale(1.025);
   }
 }
 
@@ -274,11 +279,15 @@
 .gallery-masonry-item img {
   width: 100%;
   height: auto;
-  transition: opacity var(--motion-fast) ease;
+  /* Subtle tactile lift on hover — photography stays untouched, only luminance edges nudge.
+     Avoids the heavier "dim on hover" effect that fights with the image. */
+  transition: filter var(--motion-fast) ease, transform var(--motion-mid) var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .gallery-masonry-item:hover img { opacity: 0.94; }
+  .gallery-masonry-item:hover img {
+    filter: brightness(1.025);
+  }
 }
 
 .gallery-masonry-item figcaption {
@@ -307,7 +316,18 @@
   max-height: 76vh;
   width: auto;
   max-width: 100%;
-  animation: fadeIn var(--motion-fast) var(--ease-out);
+  animation: slideshowImageIn 360ms var(--ease-spring) both;
+}
+
+@keyframes slideshowImageIn {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
 }
 
 .slideshow-controls {
@@ -362,9 +382,18 @@
   align-items: center;
   justify-content: center;
   padding: 56px;
-  animation: fadeIn var(--motion-mid) var(--ease-out);
+  /* Backdrop just fades — the figure carries the materializing cue.
+     Backdrop is 96% opaque, so blur would cost GPU for no visible gain. */
+  animation: lightboxIn 240ms var(--ease-out) both;
+  will-change: opacity;
 }
 
+@keyframes lightboxIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Exit is subtler than enter (Jakub): just opacity, no movement, slightly faster. */
 .lightbox.is-closing {
   animation: lightboxOut var(--motion-fast) var(--ease-out) forwards;
 }
@@ -373,19 +402,95 @@
   to { opacity: 0; }
 }
 
+/* Stage hosts the figure layers. Absolute so multiple figures can stack and
+   crossfade without competing for flex space; sized to the lightbox padding
+   so the photo + caption keep their original breathing room. */
+.lightbox-stage {
+  position: absolute;
+  inset: 56px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.lightbox-close,
+.lightbox-nav {
+  z-index: 2;
+}
+
 .lightbox-figure {
-  max-width: 88vw;
-  max-height: 84vh;
+  position: absolute;
+  inset: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: lightboxFigureIn var(--motion-mid) var(--ease-out) both;
+  justify-content: center;
+  gap: 16px;
+  pointer-events: auto;
+}
+
+/* First photo when the lightbox opens — full materializing recipe.
+   The explicit opacity:0 base guards against the 1-frame race where a
+   freshly mounted element paints at its underlying value before the CSS
+   animation's `from` keyframe is applied. */
+.lightbox-figure.is-initial {
+  opacity: 0;
+  animation: lightboxFigureIn 280ms var(--ease-spring) both;
+  will-change: opacity, transform, filter;
+}
+
+/* Subsequent photos via prev/next — plain crossfade. The user is paging
+   through the work; movement here would compete with the photographs.
+   Duration must match LIGHTBOX_SWAP_MS in album-gallery-client.tsx. */
+.lightbox-figure.is-swapping-in {
+  opacity: 0;
+  animation: lightboxFigureSwapIn 200ms var(--ease-out) both;
+  will-change: opacity;
+}
+
+.lightbox-figure.is-leaving {
+  animation: lightboxFigureSwapOut 200ms var(--ease-out) forwards;
+  will-change: opacity;
+  pointer-events: none;
+}
+
+/* When the lightbox is closing, every figure exits subtler than it entered:
+   opacity + faint blur, no translate. The selector wins on specificity over
+   the per-state animations above so a mid-swap close still reads cleanly. */
+.lightbox.is-closing .lightbox-figure,
+.lightbox.is-closing .lightbox-figure.is-initial,
+.lightbox.is-closing .lightbox-figure.is-swapping-in,
+.lightbox.is-closing .lightbox-figure.is-leaving {
+  animation: lightboxFigureOut var(--motion-fast) var(--ease-out) forwards;
 }
 
 @keyframes lightboxFigureIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes lightboxFigureSwapIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+@keyframes lightboxFigureSwapOut {
+  to { opacity: 0; }
+}
+
+@keyframes lightboxFigureOut {
+  to {
+    opacity: 0;
+    filter: blur(3px);
+  }
 }
 
 .lightbox-figure img {
@@ -459,9 +564,10 @@
     right: 16px;
   }
 
-  .lightbox-figure {
-    max-width: 100%;
-    max-height: 78vh;
+  /* Mobile stage matches the lightbox padding so photo + caption keep room
+     above the bottom nav buttons. */
+  .lightbox-stage {
+    inset: 24px 16px 96px;
   }
 
   .lightbox-figure img {

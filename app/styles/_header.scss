@@ -16,16 +16,38 @@
   background: transparent;
   z-index: 50;
   backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   transform: translateZ(0);
-  transition: background-color var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out), transform var(--motion-mid) var(--ease-out);
+  transition: background-color var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out), backdrop-filter var(--motion-fast) var(--ease-out), -webkit-backdrop-filter var(--motion-fast) var(--ease-out), transform var(--motion-mid) var(--ease-out);
 }
 
+/* Translucent + blurred header when scrolled. The reduced opacity lets the
+   page show through; the blur pulls the background into a quiet plate so
+   text stays legible without a hard cutoff line. */
 .site-header.is-scrolled {
-  background-color: #0a0908;
-  border-bottom-color: rgba(255, 255, 255, 0.06);
-  backdrop-filter: none;
+  background-color: rgb(10 9 8 / 0.72);
+  border-bottom-color: rgb(255 255 255 / 0.06);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
   box-shadow: none;
   color: #ece8df;
+}
+
+/* Users who opt out of transparency get a solid plate. */
+@media (prefers-reduced-transparency: reduce) {
+  .site-header.is-scrolled {
+    background-color: #0a0908;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* No backdrop-filter support: fall back to the original solid color so the
+   header doesn't read as half-transparent text floating over content. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header.is-scrolled {
+    background-color: #0a0908;
+  }
 }
 
 .site-header.is-hidden {
@@ -57,11 +79,30 @@
   color: #ece8df;
 }
 
+/* On article pages the header floats over a full-bleed photograph. Once the
+   user scrolls, the bright photo regions can wash out the white nav text —
+   so we show a translucent plate (slightly softer than the default scrolled
+   state) and a stronger blur so the photo reads as out-of-focus chrome. */
 [data-route="article"] .site-header.is-scrolled {
-  background-color: transparent;
-  border-bottom-color: transparent;
+  background-color: rgb(10 9 8 / 0.4);
+  border-bottom-color: rgb(255 255 255 / 0.05);
   box-shadow: none;
-  backdrop-filter: none;
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  [data-route="article"] .site-header.is-scrolled {
+    background-color: rgb(10 9 8 / 0.92);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  [data-route="article"] .site-header.is-scrolled {
+    background-color: rgb(10 9 8 / 0.92);
+  }
 }
 
 [data-route="article"] .brand-role,
@@ -259,16 +300,19 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(-10px);
-    transition: opacity var(--motion-fast) ease, transform var(--motion-fast) var(--ease-out), visibility 0s linear var(--motion-fast);
+    /* No translate — lets opacity + blur do the work both directions, keeping
+       the exit automatically subtler than enter (no movement to undo). */
+    filter: blur(4px);
+    transition: opacity var(--motion-fast) ease, filter var(--motion-fast) ease, visibility 0s linear var(--motion-fast);
+    will-change: opacity, filter;
   }
 
   .site-header.is-menu-open .site-nav {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translateY(0);
-    transition-delay: 0s;
+    filter: blur(0);
+    transition: opacity 260ms ease, filter 260ms ease, visibility 0s linear 0s;
   }
 
   .nav-link,

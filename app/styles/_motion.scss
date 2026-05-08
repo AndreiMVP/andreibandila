@@ -19,15 +19,20 @@
   .home-fullbleed-photo figcaption,
   .article-bg,
   .article-bg-image,
+  .article-with-bg .article-content,
+  .lightbox,
   .lightbox-figure,
-  .featured-card:hover .featured-cover img,
-  .film-row:hover .film-row-cover img,
-  .album-card:hover .album-card-cover img,
-  .journal-item:hover .journal-item-image,
+  .route-fade,
+  .gallery-masonry-item:hover img,
   .gallery-control:active,
-  .lightbox-close:active {
+  .lightbox-close:active,
+  .album-card:active,
+  .film-row:active,
+  .journal-item:active,
+  .selected-work:active {
     opacity: 1 !important;
     transform: none !important;
+    filter: none !important;
     will-change: auto;
   }
 

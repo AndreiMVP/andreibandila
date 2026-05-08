@@ -40,7 +40,12 @@
   padding: 48px 0;
   border-bottom: 1px solid var(--line);
   align-items: start;
-  transition: border-color var(--motion-fast) ease;
+  transition: border-color var(--motion-fast) ease, transform 220ms var(--ease-out);
+}
+
+.film-row:active {
+  transform: scale(0.99);
+  transform-origin: center;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -66,12 +71,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--motion-slow) var(--ease-out);
+  transition: transform 600ms var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .film-row:hover .film-row-cover img {
-    transform: scale(1.01);
+    transform: scale(1.025);
   }
 }
 

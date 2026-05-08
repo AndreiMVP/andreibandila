@@ -16,6 +16,11 @@
 .journal-item {
   display: block;
   position: relative;
+  transition: transform 220ms var(--ease-out);
+}
+
+.journal-item:active {
+  transform: scale(0.985);
 }
 
 .journal-item-num {
@@ -40,7 +45,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--motion-slow) var(--ease-out);
+  transition: transform 600ms var(--ease-out);
 }
 
 .journal-item-no-image {
@@ -103,7 +108,7 @@
 
 @media (hover: hover) and (pointer: fine) {
   .journal-item:hover .journal-item-image {
-    transform: scale(1.01);
+    transform: scale(1.025);
   }
 
   .journal-item:hover .journal-item-copy {

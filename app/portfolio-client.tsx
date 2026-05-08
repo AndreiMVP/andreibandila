@@ -1,5 +1,6 @@
 import { SITE_CONFIG } from "@andreibandila/shared";
 import HeaderClient from "./header-client";
+import PageFrame from "./page-frame";
 
 export type RoutePage = "home" | "albums" | "album" | "films" | "film" | "about" | "journal" | "article";
 
@@ -25,7 +26,7 @@ export default function PortfolioShell({ page, children }: { page: RoutePage; ch
   return (
     <div className="site" data-route={page}>
       <HeaderClient page={page} />
-      {children}
+      <PageFrame>{children}</PageFrame>
       <Footer />
     </div>
   );

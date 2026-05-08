@@ -8,14 +8,9 @@
   min-height: 100vh;
 }
 
-.page-article.fade-in {
-  animation: articlePageFadeIn var(--motion-mid) var(--ease-out) both;
-}
-
-@keyframes articlePageFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+/* Page-level entry handled by .route-fade on the wrapper. The article-bg
+   and article-content reveals below are the article page's distinctive
+   materializing moments and stay scoped to those elements. */
 
 .page-article .back-link {
   position: relative;
@@ -54,8 +49,9 @@
   overflow: hidden;
   pointer-events: none;
   opacity: 0;
-  animation: articleBgReveal var(--motion-photo) var(--ease-out) forwards;
-  will-change: opacity;
+  filter: blur(8px);
+  animation: articleBgReveal var(--motion-photo) var(--ease-spring) forwards;
+  will-change: opacity, filter;
 }
 
 .article-bg-image {
@@ -76,15 +72,20 @@
 .article-bg::before {
   height: 32%;
   bottom: auto;
-  background: linear-gradient(to bottom, #0e0d0b 0%, rgba(14,13,11,0.82) 34%, rgba(14,13,11,0) 100%);
+  /* in oklab keeps the fade-to-transparent perceptually clean (no hazy gray
+     midpoint that sRGB hits when alpha-blending dark colors). */
+  background: linear-gradient(in oklab to bottom, #0e0d0b 0%, rgba(14,13,11,0.82) 34%, rgba(14,13,11,0) 100%);
 }
 
 .article-bg::after {
-  background: linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.18) 72%, rgba(0,0,0,0.52) 100%);
+  background: linear-gradient(in oklab to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.18) 72%, rgba(0,0,0,0.52) 100%);
 }
 
 @keyframes articleBgReveal {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
 }
 
 .article-with-bg .article-content {
@@ -93,7 +94,10 @@
   padding: 72px 64px;
   color: #fff;
   opacity: 0;
-  animation: articleTextReveal var(--motion-mid) var(--ease-out) forwards;
+  /* Parent .page-article supplies the translateY + blur cue; here we only
+     stagger the text in with a soft fade so movement doesn't compound. */
+  animation: articleTextReveal 480ms var(--ease-out) 200ms forwards;
+  will-change: opacity;
 }
 
 @keyframes articleTextReveal {
@@ -105,7 +109,7 @@
   position: absolute;
   inset: -240px -300px;
   z-index: -1;
-  background: radial-gradient(ellipse at center, rgb(0 0 0 / 0.92) 0%, rgb(0 0 0 / 0.88) 24%, rgb(0 0 0 / 0.68) 38%, rgb(0 0 0 / 0.28) 54%, rgb(0 0 0 / 0.08) 68%, rgb(0 0 0 / 0) 82%);
+  background: radial-gradient(ellipse at center in oklab, rgb(0 0 0 / 0.92) 0%, rgb(0 0 0 / 0.88) 24%, rgb(0 0 0 / 0.68) 38%, rgb(0 0 0 / 0.28) 54%, rgb(0 0 0 / 0.08) 68%, rgb(0 0 0 / 0) 82%);
   pointer-events: none;
 }
 
